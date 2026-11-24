@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /search.html?
+
+# BEGIN Remote USA Jobs sitemaps
+Sitemap: https://remoteusajobs.up.railway.app/sitemap-remote.xml
+Sitemap: https://remoteusajobs.up.railway.app/post-sitemap.xml
+# END Remote USA Jobs sitemaps
