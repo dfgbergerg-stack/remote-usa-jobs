@@ -1,0 +1,69 @@
+# BEGIN Remote USA Jobs
+# Managed by Remote USA Jobs_build.py — anything between BEGIN/END is rewritten on every run
+DirectoryIndex index.html
+<IfModule mod_rewrite.c>
+RewriteEngine On
+# Old job URLs without .html  →  /remote-jobs/<slug>.html
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule ^remote-jobs/([a-z0-9-]+)$ /remote-jobs/$1.html [R=301,L]
+# Old /category/ pages  →  new category pages
+RewriteRule ^category/?$ /remote-job-categories/ [R=301,L]
+RewriteRule ^category/customer-service(/.*)?$ /customer-service-remote-jobs/ [R=301,L]
+RewriteRule ^category/healthcare(/.*)?$ /healthcare-remote-jobs/ [R=301,L]
+RewriteRule ^category/admin-data-entry(/.*)?$ /data-entry-remote-jobs/ [R=301,L]
+RewriteRule ^category/sales(/.*)?$ /sales-remote-jobs/ [R=301,L]
+RewriteRule ^category/marketing(/.*)?$ /remote-job-categories/ [R=301,L]
+RewriteRule ^category/writing-content(/.*)?$ /writing-remote-jobs/ [R=301,L]
+RewriteRule ^category/design(/.*)?$ /design-remote-jobs/ [R=301,L]
+RewriteRule ^category/software-development(/.*)?$ /software-developer-remote-jobs/ [R=301,L]
+RewriteRule ^category/data-analytics(/.*)?$ /data-analytics-remote-jobs/ [R=301,L]
+RewriteRule ^category/finance-accounting(/.*)?$ /remote-job-categories/ [R=301,L]
+RewriteRule ^category/hr-recruiting(/.*)?$ /hr-recruiting-remote-jobs/ [R=301,L]
+RewriteRule ^category/education(/.*)?$ /remote-job-categories/ [R=301,L]
+RewriteRule ^category/project-product-management(/.*)?$ /project-management-remote-jobs/ [R=301,L]
+RewriteRule ^category/operations(/.*)?$ /remote-job-categories/ [R=301,L]
+RewriteRule ^category/general(/.*)?$ /remote-jobs/ [R=301,L]
+RewriteRule ^category/.+$ /remote-job-categories/ [R=301,L]
+</IfModule>
+# Keep the builder, its feed and its database private
+<FilesMatch "(\.py|\.ndjson|\.Remote\ USA\ Jobs_jobs_db\.json|\.Remote\ USA\ Jobs_jobs_db\.json\.tmp|apply\.txt|tracker\.txt|home\.txt)$">
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+  </IfModule>
+</FilesMatch>
+RedirectMatch 404 ^/\.Remote\ USA\ Jobs_archive(/|$)
+# Speed: compression + browser caching
+AddType application/manifest+json .webmanifest
+AddType text/xsl .xsl
+<IfModule mod_brotli.c>
+  AddOutputFilterByType BROTLI_COMPRESS text/html text/css text/plain text/xml application/xml application/javascript application/json application/manifest+json image/svg+xml
+</IfModule>
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml application/xml application/javascript application/json application/manifest+json image/svg+xml
+</IfModule>
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/html "access plus 10 minutes"
+  ExpiresByType application/json "access plus 1 hour"
+  ExpiresByType text/xml "access plus 1 hour"
+  ExpiresByType application/xml "access plus 1 hour"
+  ExpiresByType application/manifest+json "access plus 1 day"
+  ExpiresByType image/png "access plus 30 days"
+  ExpiresByType image/svg+xml "access plus 30 days"
+</IfModule>
+<IfModule mod_headers.c>
+  <FilesMatch "^sw\.js$">
+    Header set Cache-Control "no-cache"
+    Header set Service-Worker-Allowed "/"
+  </FilesMatch>
+  <FilesMatch "\.html$">
+    Header set Cache-Control "public, max-age=600, stale-while-revalidate=86400"
+  </FilesMatch>
+  Header set X-Content-Type-Options "nosniff"
+</IfModule>
+# END Remote USA Jobs
